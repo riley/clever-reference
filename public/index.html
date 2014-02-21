@@ -41,7 +41,7 @@
         var c = document.getElementById('canvas').getContext('2d');
         c.fillStyle = 'red';
 
-        var socket = io.connect('http://localhost:4444');
+        var socket = io.connect('http://clever-reference.herokuapp.com');
         socket.on('location:data', function (data) {
             console.log(data);
             c.clearRect(0, 0, 500, 500);
