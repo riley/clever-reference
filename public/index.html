@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+        <style>
+        .box {
+            width: 500px;
+            height: 500px;
+            background: red;
+            float: left;
+        }
+
+        canvas {
+            float: left;
+            border: 1px solid red;
+            margin-left: 15px;
+        }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <p>Socket.io demo</p>
+        <div id="box" class="box"></div>
+        <canvas id="canvas" width="500" height="500"></canvas>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+
+        var c = document.getElementById('canvas').getContext('2d');
+        c.fillStyle = 'red';
+
+        var socket = io.connect('http://localhost:4444');
+        socket.on('location:data', function (data) {
+            console.log(data);
+            c.clearRect(0, 0, 500, 500);
+            c.beginPath();
+            c.arc(data.x, data.y, 4, 0, Math.PI * 2, true);
+            c.fill();
+            c.closePath();
+        });
+
+        var $box = $('#box');
+        var offset = $box.offset();
+        box.addEventListener('mousemove', function (e) {
+            var x = e.pageX - offset.left;
+            var y = e.pageY - offset.top;
+            socket.emit('mouse:move', {x: x, y: y});
+        });
+        </script>
+    </body>
+</html>
